@@ -1,95 +1,66 @@
-## Template v2.3 for themes in `theme_park` https://github.com/MatthewBJane/theme_park   <<<  Remove this line
-
-## YOUR NAME
-## theme_cade
-## Date 14/09/2024
-
-
-# COLOR: add, remove, or edit the colors to fit your scheme (hex code preferred, but you can use any type). Names should be
-#' cade Inspired Theme Color Palette
+#' @title Tema do Cade
 #'
-#' @format character vector of hex code strings
+#' @description Clean ggplot theme with no panel background, black axis lines
+#'   and grey fill colour for chart elements.
+#'
+#' @author Tomas Barcellos \email{tomas.barcellos@@cade.gov.br}
+#'
+#' @param base_size Base font size.
+#' @param base_family Base font family.
+#'
+#' @family themes
 #' @export
-#' @concept cade
 #'
-#' @examples
-#' cade_theme_colors
-#'
-cade_theme_colors <- c(
-  lighter    = '#8ac706',
-  light      = '#5f2972',
-  medium     = '#ffde00',
-  dark       = '#003466'
-)
+#' @example inst/examples/ex-theme_clean.R
+theme_cade <- function(base_size = 12,
+                       base_family = "sans") {
+  (
+    ggthemes::theme_foundation(
+      base_size = base_size,
+      base_family = base_family
+    ) + theme(
+      axis.line.x = element_line(
+        colour = "black", size = 0.5, linetype = "solid"
+      ),
+      axis.text = element_text(size = ceiling(base_size * 0.7), colour = "black"),
+      axis.title = element_text(size = ceiling(base_size * 0.8)),
 
-# DISCRETE PALETTE COLORS: Please update to some colors that work with your theme
-#' Cade Inspired Color Palette
-#'
-#' @format character vector of hex code strings
-#' @export
-#' @concept cade
-#'
-#' @examples
-#' cade_palette
-#'
-cade_palette <- c(
-  '#003466', '#ffde00', '#5f2972', '#8ac706', '#b19883','#3f3f3f'
-)
+      panel.grid.minor = element_blank(),
+      panel.grid.major.y = element_line(colour = "gray", linetype = 3),
+      panel.grid.major.x = element_blank(),
+      panel.background = element_blank(),
+      panel.border = element_blank(),
 
-boletim_palette <- c(
-  "#31486e", "#546c84", "#897767", "#92a5b8", "#2082cd", "#b0786c", "#dcd8d5"
-)
+      strip.background = element_rect(linetype = 0),
+      strip.text = element_text(),
+      strip.text.x = element_text(vjust = 0.5),
+      strip.text.y = element_text(angle = -90),
 
-#' cade Inspired Theme
-#'
-#' @param cade_font should `theme_cade` use custom font? Default is `TRUE`.
-#' @param ... additional parameters to pass to `ggplot2::theme()`
-#'
-#' @return a `ggplot2` `theme` element
-#' @export
-#' @concept cade
-#'
-#' @examples
-#' library(ggplot2)
-#'
-#' ggplot(data = data.frame(x = rnorm(50, 0, 1), y = rnorm(50,0,1)), aes(x = x, y = y)) +
-#'   geom_smooth(method = 'lm') +
-#'   geom_point() +
-#'   labs(title = 'cade Scatter Plot') +
-#'   theme_cade()
-#'
-#' ggplot(mpg, aes(cty)) +
-#' geom_density(aes(fill=factor(cyl)), alpha=0.8) +
-#'   labs(title="Density plot",
-#'        subtitle="City Mileage Grouped by Number of cylinders",
-#'        caption="Source: mpg",
-#'        x="City Mileage",
-#'        fill="# Cylinders") +
-#'   theme_cade() +
-#'   scale_fill_cade_d()
-#'
-#'
-theme_cade <- function(cade_font = FALSE, ...) {
+      legend.position = "top",
+      legend.justification = "center",
+      legend.spacing = unit(base_size * 1.5, "points"),
+      legend.key = element_rect(linetype = 0),
+      legend.key.size = unit(1.3, "lines"),
 
-  # CUSTOM FONT: add a custom font from google fonts
-  font_family <- ifelse(cade_font, 'cade', 'sans') # use this line if you have a custom font - change cade to match the font name used
-  if (cade_font) {
-    initialize_font(name = "GOOGLE FONT NAME", family = "cade")
-  }
-
-  # CUSTOM THEME:
-  ggplot2::theme_classic() +
-    ggplot2::theme(
-      ...,
-    panel.grid.minor = ggplot2::element_blank(),
-    panel.grid.major.x = ggplot2::element_blank(),
-    panel.grid.major.y = ggplot2::element_line(linetype = 4),
-    axis.line = ggplot2::element_line(
-      arrow = grid::arrow(type = "open",
-                          length = ggplot2::unit(0.15, "inches"))
-    ),
-    legend.position = "bottom"
+      plot.background = element_rect(colour = "transparent"),
+      plot.title = element_text(size = ceiling(base_size * 1.1), face = "bold"),
+      plot.subtitle = element_text(size = ceiling(base_size * 1.05)),
+      plot.caption = element_text(hjust = -0.1)
     )
+  )
+}
+
+#' @rdname theme_cade
+#' @export
+theme_cade_flip <- function(base_size = 12,
+                       base_family = "sans") {
+  (
+    theme_cade() +
+      theme(
+      panel.grid.major.x = element_line(colour = "gray", linetype = 3),
+      panel.grid.major.y = element_blank()
+    )
+  )
 }
 
 #' cade Inspired Color Scales
@@ -153,11 +124,6 @@ scale_color_cade_d <- function(...) {
                           palette = rot_pal(cade_palette), ...)
 }
 
-#' Cria paleta
-#'
-#' @param pal paleta
-#'
-#' @return paleta
 rot_pal <- function(pal) {
   pal <- unname(pal)
   function(n) {

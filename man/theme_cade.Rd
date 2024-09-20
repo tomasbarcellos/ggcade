@@ -2,40 +2,20 @@
 % Please edit documentation in R/theme_cade.R
 \name{theme_cade}
 \alias{theme_cade}
-\title{cade Inspired Theme}
+\title{Tema do Cade}
 \usage{
-theme_cade(cade_font = FALSE, ...)
+theme_cade(base_size = 12, base_family = "sans")
 }
 \arguments{
-\item{cade_font}{should `theme_cade` use custom font? Default is `TRUE`.}
+\item{base_size}{Base font size.}
 
-\item{...}{additional parameters to pass to `ggplot2::theme()`}
-}
-\value{
-a `ggplot2` `theme` element
+\item{base_family}{Base font family.}
 }
 \description{
-cade Inspired Theme
+Clean ggplot theme with no panel background, black axis lines
+  and grey fill colour for chart elements.
 }
-\examples{
-library(ggplot2)
-
-ggplot(data = data.frame(x = rnorm(50, 0, 1), y = rnorm(50,0,1)), aes(x = x, y = y)) +
-  geom_smooth(method = 'lm') +
-  geom_point() +
-  labs(title = 'cade Scatter Plot') +
-  theme_cade()
-
-ggplot(mpg, aes(cty)) +
-geom_density(aes(fill=factor(cyl)), alpha=0.8) +
-  labs(title="Density plot",
-       subtitle="City Mileage Grouped by Number of cylinders",
-       caption="Source: mpg",
-       x="City Mileage",
-       fill="# Cylinders") +
-  theme_cade() +
-  scale_fill_cade_d()
-
-
+\author{
+Tomas Barcellos \email{tomas.barcellos@cade.gov.br}
 }
-\concept{cade}
+\concept{themes}
